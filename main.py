@@ -20,9 +20,10 @@ dbC.test_query(target_table=settings.table_name)
 app = FastAPI()
 @app.post("/cancel_order")
 def post_cancel_order_number(payload: str):
+    logging.info(payload)
     df_payload = pd.read_json(io.StringIO(payload), orient='index').T
     dbC.insertTableData(table_name="freshdesk_ticket_status", df=df_payload)
-    # logging.info(f"Order Number {df_payload['order_number'][0]}: Inserted")
+    logging.info(f"Order Number {df_payload['order_number'][0]}: Inserted")
     return f"Order Number {df_payload['order_number'][0]}: Inserted"
 
 if __name__ == '__main__':
