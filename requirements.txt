@@ -1,0 +1,7 @@
+requests
+pandas
+sqlalchemy==2.0.23
+python-dotenv
+fastapi
+uvicorn[standard]
+mysql-connector-python
