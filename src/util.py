@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 class dbConnector:
-    async def __init__(self, db_name: str, db_user: str, db_password: str, db_host: str, db_port: str):
+    def __init__(self, db_name: str, db_user: str, db_password: str, db_host: str, db_port: str):
         self.engine=create_engine(f'mysql+mysqlconnector://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}', echo=False)
         self.cnx = self.engine.connect()
 
