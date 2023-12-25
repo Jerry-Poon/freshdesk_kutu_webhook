@@ -6,7 +6,7 @@ import logging
 
 client = google.cloud.logging.Client()
 client.setup_logging()
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO) 
 
 
 class dbConnector:
@@ -32,5 +32,3 @@ class dbConnector:
             except Exception as e:
                 logging.WARNING(f'Error: {e}')
                 raise e
-
-            

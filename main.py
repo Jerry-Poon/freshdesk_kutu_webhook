@@ -6,7 +6,6 @@ import uvicorn
 import io
 import logging
 
-
 settings = config.Settings
 
 dbC=util.dbConnector(db_name=settings.db_name, 
