@@ -25,4 +25,4 @@ def post_cancel_order_number(payload: str):
     return logging.info(f"Order Number {df_payload['order_number'][0]}: Inserted")
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", reload=True, workers=2)
+    uvicorn.run("main:app", reload=True, workers=2, port=8080)
