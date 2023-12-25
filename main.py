@@ -22,7 +22,8 @@ app = FastAPI()
 def post_cancel_order_number(payload: str):
     df_payload = pd.read_json(io.StringIO(payload), orient='index').T
     dbC.insertTableData(table_name="freshdesk_ticket_status", df=df_payload)
-    return logging.info(f"Order Number {df_payload['order_number'][0]}: Inserted")
+    # logging.info(f"Order Number {df_payload['order_number'][0]}: Inserted")
+    return f"Order Number {df_payload['order_number'][0]}: Inserted"
 
 if __name__ == '__main__':
     uvicorn.run("main:app", reload=True, workers=2, port=8080)
