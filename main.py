@@ -4,9 +4,13 @@ import pandas as pd
 from src import util, config
 import uvicorn
 import io
+import google.cloud.logging
 import logging
 
 settings = config.Settings
+client = google.cloud.logging.Client()
+client.setup_logging()
+
 
 dbC=util.dbConnector(db_name=settings.db_name, 
                      db_user=settings.db_user, 
