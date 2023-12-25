@@ -1,9 +1,11 @@
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, func, select
 from sqlalchemy.orm import Session
 import pandas as pd
+import google.cloud.logging
 import logging
-import asyncio
 
+client = google.cloud.logging.Client()
+client.setup_logging()
 logging.basicConfig(level=logging.INFO)
 
 
