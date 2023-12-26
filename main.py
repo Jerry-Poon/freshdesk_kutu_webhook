@@ -1,5 +1,5 @@
 from typing import Union
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 import pandas as pd
 from src import util, config
 import uvicorn
@@ -22,9 +22,14 @@ dbC.test_query(target_table=settings.table_name)
 
 app = FastAPI()
 @app.post("/cancel_order")
-def post_cancel_order_number(payload: str):
+def post_cancel_order_number(payload: Request):
     logging.info(payload)
     df_payload = pd.read_json(io.StringIO(payload), orient='index').T
+
+    # remove timezone info
+    for x in ['cancel_datetime', 'udt']:
+        df_payload[x] = df_payload[x].apply(lambda x: x.replace(' +0800', ''))
+
     dbC.insertTableData(table_name="freshdesk_ticket_status", df=df_payload)
     logging.info(f"Order Number {df_payload['order_number'][0]}: Inserted")
     return f"Order Number {df_payload['order_number'][0]}: Inserted"
