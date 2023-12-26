@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from dataclasses import dataclass
+from pydantic import BaseModel
 from pathlib import Path
 
 current_path = Path('__file__')
@@ -16,4 +17,9 @@ class Settings:
     db_port: str = os.getenv('DB_PORT')
     table_name: str = os.getenv('TABLE_NAME')
 
-settings = Settings()
+class Payload(BaseModel):
+    order_number: str
+    status: str
+    processed: bool
+    cancel_datetime: str
+    udt: str

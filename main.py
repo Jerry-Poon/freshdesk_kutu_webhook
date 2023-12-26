@@ -1,30 +1,30 @@
 from typing import Union
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 import pandas as pd
 from src import util, config
 import uvicorn
-import io
+from io import StringIO
 import google.cloud.logging
 import logging
 
-settings = config.Settings
+Settings = config.Settings
+Payload = config.Payload
 client = google.cloud.logging.Client()
 client.setup_logging()
 
-
-dbC=util.dbConnector(db_name=settings.db_name, 
-                     db_user=settings.db_user, 
-                     db_password=settings.db_password, 
-                     db_host=settings.db_host, 
-                     db_port=settings.db_port)
+# Get connection
+dbC=util.dbConnector(db_name=Settings.db_name, 
+                     db_user=Settings.db_user, 
+                     db_password=Settings.db_password, 
+                     db_host=Settings.db_host, 
+                     db_port=Settings.db_port)
 db_connection = dbC.cnx
-dbC.test_query(target_table=settings.table_name)
+# dbC.test_query(target_table=settings.table_name)
 
 app = FastAPI()
 @app.post("/cancel_order")
-def post_cancel_order_number(payload: Request):
-    logging.info(payload)
-    df_payload = pd.read_json(io.StringIO(payload), orient='index').T
+def post_cancel_order_number(payload: Payload): 
+    df_payload = pd.DataFrame.from_dict(payload.dict(), orient='index').T
 
     # remove timezone info
     for x in ['cancel_datetime', 'udt']:
