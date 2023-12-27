@@ -28,3 +28,10 @@ class dbConnector:
             except Exception as e:
                 logging.WARNING(f'Error: {e}')
                 raise e
+
+def isVarInt(string: str) -> bool:
+    try:
+        int(string)
+        return True
+    except ValueError:
+        return False

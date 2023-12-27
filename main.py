@@ -2,6 +2,7 @@ from typing import Union
 from fastapi import FastAPI
 import pandas as pd
 from src import util, config
+from src.util import isVarInt
 import uvicorn
 from io import StringIO
 import google.cloud.logging
@@ -25,6 +26,9 @@ app = FastAPI()
 @app.post("/cancel_order")
 def post_cancel_order_number(payload: Payload): 
     df_payload = pd.DataFrame.from_dict(payload.dict(), orient='index').T
+
+    # Patch KS heading
+    df_payload['order_number'] = df_payload['order_number'].apply(lambda x: 'KS'+x if isVarInt(x) else x)
 
     # remove timezone info
     for x in ['cancel_datetime', 'udt']:
